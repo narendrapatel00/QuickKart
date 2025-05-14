@@ -1,21 +1,26 @@
-const port = 4000;
-const express = require("express");
+import express from 'express';
+import mongoose from 'mongoose';
+import jwt from 'jsonwebtoken';
+import multer from 'multer';
+import path from 'path';
+import cors from 'cors';
+import dotenv from 'dotenv'
+
+import connectDB from './db/connectDB.js'
+
+
+dotenv.config()
+
+const PORT = 4000
+
 const app = express();
-const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken");
-const multer = require("multer");
-const path = require("path");
-const cors = require("cors");
 
 app.use(express.json());
 app.use(cors());
-
-// Database Connection with MongoDB
-mongoose.connect("mongodb+srv://raunakumar27:Le7EIi4ofuUEU5iZ@cluster0.pqvtibk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
 //API Creation
 
 app.get("/", (req, res) => {
-    res.send("Express App is Running");
+    res.send("Express App is Running");image.png
 });
 
 // Image Storage Engine
@@ -266,10 +271,12 @@ app.post('/getcart', fetchUser, async (req, res) => {
     res.json(userData.cartData);
 })
 
-app.listen(port, (error) => {
-    if (!error) {
-        console.log("Server Running on Port " + port);
-    } else {
-        console.log("Error: " + error);
+app.listen(PORT, (error) => {
+
+    try {
+        console.log(`Server Running on Port ${process.env.PORT}`)
+        connectDB()
+    } catch (error) {
+        console.log("Error", error)
     }
 });
